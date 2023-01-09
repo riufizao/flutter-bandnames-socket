@@ -20,9 +20,10 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'Band Votes',
         //theme:
-        initialRoute: 'status',
+        initialRoute: 'home',
         routes: {
           'home': (_) => const HomePage(),
           'status': (_) => const StatusPage(),

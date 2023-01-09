@@ -1,7 +1,7 @@
 class Band {
   String id;
   String name;
-  double votes;
+  int votes;
 
   Band({
     required this.id,
@@ -10,8 +10,8 @@ class Band {
   });
 
   factory Band.fromMap(Map<String, dynamic> obj) => Band(
-        id: obj['id'],
-        name: obj['name'],
-        votes: obj['votes'],
+        id: obj.containsKey('id') ? obj['id'] : 'no_id',
+        name: obj.containsKey('name') ? obj['name'] : 'no_name',
+        votes: obj.containsKey('votes') ? obj['votes'].toInt() : 0,
       );
 }

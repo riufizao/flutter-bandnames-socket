@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 enum ServerStatus {
   connecting,
@@ -9,20 +9,22 @@ enum ServerStatus {
 
 class SocketService with ChangeNotifier {
   late ServerStatus _serverStatus = ServerStatus.connecting;
-  late Socket _socket;
+  late io.Socket _socket;
 
   SocketService() {
     print('init');
     _initConfig();
   }
 
-  get serverStatus => _serverStatus;
+  ServerStatus get serverStatus => _serverStatus;
   set serverStatus(value) => _serverStatus = value;
+  io.Socket get socket => _socket;
 
   void _initConfig() {
-    _socket = io(
+    _socket = io.io(
+        //cambiar ip cada que se conectar a la red
         'http://192.168.31.248:3000',
-        OptionBuilder()
+        io.OptionBuilder()
             .setTransports(['websocket'])
             .enableAutoConnect()
             .build());
@@ -38,5 +40,7 @@ class SocketService with ChangeNotifier {
       _serverStatus = ServerStatus.offline;
       notifyListeners();
     });
+
+    _socket.on('new_msg', (payload) => print(payload));
   }
 }
